@@ -1,0 +1,299 @@
+TinyTuya Setup Wizard [1.20.0]
+
+    Existing settings:
+        API Key=4m5ts4ysq3uuwmsasnmg 
+        Secret=e8761341fb3b42a198b2dffb2234446a
+        DeviceID=bfcf54f2cde20da2bbcael
+        Region=eu
+
+
+
+Device Listing
+
+[
+    {
+        "name": "Leckage HWW",
+        "id": "bfcd55041e2a259087sy4y",
+        "key": "=_u6c3?W0$GIXBg1",
+        "mac": "4c:a9:19:88:1c:df",
+        "uuid": "66b17b112f2bba9b",
+        "sn": "1001481330C003",
+        "category": "sj",
+        "product_name": "Wifi Water Alarm",
+        "product_id": "ajfqmoxohplichyo",
+        "biz_type": 0,
+        "model": "SWW04U",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/bay1584351192642lNaT/17119550913fdb49ebdf9.jpg",
+        "mapping": {
+            "1": {
+                "code": "watersensor_state",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "alarm",
+                        "normal"
+                    ]
+                }
+            },
+            "4": {
+                "code": "battery_percentage",
+                "type": "Integer",
+                "values": {
+                    "unit": "%",
+                    "min": 0,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            }
+        }
+    },
+    {
+        "name": "Leckage K\u00fcche",
+        "id": "bf392c0b72b5d92e30qpsc",
+        "key": "~U^T)z^jO<Zfd]|3",
+        "mac": "4c:a9:19:87:cd:dc",
+        "uuid": "b7e16a442625de59",
+        "sn": "10014813306EDC",
+        "category": "sj",
+        "product_name": "Wifi Water Alarm",
+        "product_id": "ajfqmoxohplichyo",
+        "biz_type": 0,
+        "model": "SWW04U",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/bay1584351192642lNaT/17119550913fdb49ebdf9.jpg",
+        "mapping": {
+            "1": {
+                "code": "watersensor_state",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "alarm",
+                        "normal"
+                    ]
+                }
+            },
+            "4": {
+                "code": "battery_percentage",
+                "type": "Integer",
+                "values": {
+                    "unit": "%",
+                    "min": 0,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            }
+        }
+    },
+    {
+        "name": "Leckage Schlafzimmer",
+        "id": "bf6f6dd21c5e295d2cntmh",
+        "key": "^#ciuDP'*DBJ*o`V",
+        "mac": "4c:a9:19:87:d1:85",
+        "uuid": "6ec7720dd0926c92",
+        "sn": "10014813307E97",
+        "category": "sj",
+        "product_name": "Wifi Water Alarm",
+        "product_id": "ajfqmoxohplichyo",
+        "biz_type": 0,
+        "model": "SWW04U",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/bay1584351192642lNaT/17119550913fdb49ebdf9.jpg",
+        "mapping": {
+            "1": {
+                "code": "watersensor_state",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "alarm",
+                        "normal"
+                    ]
+                }
+            },
+            "4": {
+                "code": "battery_percentage",
+                "type": "Integer",
+                "values": {
+                    "unit": "%",
+                    "min": 0,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            }
+        }
+    },
+    {
+        "name": "Leckage Therme",
+        "id": "bf64b9115d944dd838avaf",
+        "key": "$M`qE`QVz/tUxczN",
+        "mac": "4c:a9:19:87:d4:09",
+        "uuid": "6c42005605e1f843",
+        "sn": "1001481330733A",
+        "category": "sj",
+        "product_name": "Wifi Water Alarm",
+        "product_id": "ajfqmoxohplichyo",
+        "biz_type": 0,
+        "model": "SWW04U",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/bay1584351192642lNaT/17119550913fdb49ebdf9.jpg",
+        "mapping": {
+            "1": {
+                "code": "watersensor_state",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "alarm",
+                        "normal"
+                    ]
+                }
+            },
+            "4": {
+                "code": "battery_percentage",
+                "type": "Integer",
+                "values": {
+                    "unit": "%",
+                    "min": 0,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            }
+        }
+    },
+    {
+        "name": "Split",
+        "id": "bfcf54f2cde20da2bbcael",
+        "key": ";rf8UMjU*YL-L9rA",
+        "mac": "bc:35:1e:5f:20:3f",
+        "uuid": "fe41421f4088b755",
+        "sn": "10021260900CF9",
+        "category": "kt",
+        "product_name": "smart air conditioner",
+        "product_id": "64z8cyptsfd23tas",
+        "biz_type": 0,
+        "model": "",
+        "sub": false,
+        "icon": "https://images.tuyaeu.com/smart/icon/ay15504559813094QaYo/1561082692d125074ba74.png",
+        "mapping": {
+            "1": {
+                "code": "switch",
+                "type": "Boolean",
+                "values": {}
+            },
+            "2": {
+                "code": "temp_set",
+                "type": "Integer",
+                "values": {
+                    "unit": "\u00b0C",
+                    "min": 16,
+                    "max": 32,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "3": {
+                "code": "temp_current",
+                "type": "Integer",
+                "values": {
+                    "unit": "\u00b0C",
+                    "min": -30,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "4": {
+                "code": "mode",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "cold",
+                        "hot",
+                        "wet",
+                        "wind",
+                        "auto"
+                    ]
+                }
+            },
+            "5": {
+                "code": "windspeed",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "1",
+                        "2",
+                        "3",
+                        "4",
+                        "5"
+                    ]
+                }
+            },
+            "12": {
+                "code": "heat",
+                "type": "Boolean",
+                "values": {}
+            },
+            "19": {
+                "code": "temp_unit_convert",
+                "type": "Enum",
+                "values": {
+                    "range": [
+                        "c",
+                        "f"
+                    ]
+                }
+            },
+            "23": {
+                "code": "temp_current_f",
+                "type": "Integer",
+                "values": {
+                    "unit": "\u00b0F",
+                    "min": -40,
+                    "max": 200,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "24": {
+                "code": "temp_set_f",
+                "type": "Integer",
+                "values": {
+                    "unit": "\u00b0F",
+                    "min": 0,
+                    "max": 100,
+                    "scale": 0,
+                    "step": 1
+                }
+            },
+            "102": {
+                "code": "health",
+                "type": "Boolean",
+                "values": {}
+            }
+        }
+    }
+]
+
+>> Saving list to devices.json
+    5 registered devices saved
+
+>> Saving raw TuyaPlatform response to tuya-raw.json
+
+Scanning local network for Tuya devices...
+Scanning... | (17)                                 Scanning... / (17)                                 Scanning... - (17)                                 Scanning... \ (17)                                 Scanning... | (17)                                 Scanning... / (17)                                 Scanning... - (17)                                 Scanning... \ (17)                                 Scanning... | (17)                                 Scanning... / (17)                                 Scanning... - (16)                                 Scanning... \ (16)                                 Scanning... | (16)                                 Scanning... / (16)                                 Scanning... - (16)                                 Scanning... \ (16)                                 Scanning... | (16)                                 Scanning... / (16)                                 Scanning... - (16)                                 Scanning... \ (16)                                 Scanning... | (15)                                 Scanning... / (15)                                 Scanning... - (15)                                 Scanning... \ (15)                                 Scanning... | (15)                                 Scanning... / (15)                                 Scanning... - (15)                                 Scanning... \ (15)                                 Scanning... | (15)                                 Scanning... / (15)                                 Scanning... - (14)                                 Scanning... \ (14)                                 Scanning... | (14)                                 Scanning... / (14)                                 Scanning... - (14)                                 Scanning... \ (14)                                 Scanning... | (14)                                 Scanning... / (14)                                 Scanning... - (14)                                 Scanning... \ (14)                                 Scanning... | (13)                                 Scanning... / (13)                                 Scanning... - (13)                                 Scanning... \ (13)                                 Scanning... | (13)                                 Scanning... / (13)                                 Scanning... - (13)                                 Scanning... \ (13)                                 Scanning... | (13)                                 Scanning... / (13)                                 Scanning... - (12)                                 Scanning... \ (12)                                 Scanning... | (12)                                 Scanning... / (12)                                 Scanning... - (12)                                 Scanning... \ (12)                                 Scanning... | (12)                                 Scanning... / (12)                                 Scanning... - (12)                                 Scanning... \ (12)                                 Scanning... | (11)                                 Scanning... / (11)                                 Scanning... - (11)                                 Scanning... \ (11)                                 Scanning... | (11)                                 Scanning... / (11)                                 Scanning... - (11)                                 Scanning... \ (11)                                 Scanning... | (11)                                 Scanning... / (11)                                 Scanning... - (10)                                 Scanning... \ (10)                                 Scanning... | (10)                                 Scanning... / (10)                                 Scanning... - (10)                                 Scanning... \ (10)                                 Scanning... | (10)                                 Scanning... / (10)                                 Scanning... - (10)                                 Scanning... \ (10)                                 Scanning... | (9)                                 Scanning... / (9)                                 Scanning... - (9)                                 Scanning... \ (9)                                 Scanning... | (9)                                 Scanning... / (9)                                 Scanning... - (9)                                 Scanning... \ (9)                                 Scanning... | (9)                                 Scanning... / (9)                                 Scanning... - (8)                                 Scanning... \ (8)                                 Scanning... | (8)                                 Scanning... / (8)                                 Scanning... - (8)                                 Scanning... \ (8)                                 Scanning... | (8)                                 Scanning... / (8)                                 Scanning... - (8)                                 Scanning... \ (8)                                 Scanning... | (7)                                 Scanning... / (7)                                 Scanning... - (7)                                 Scanning... \ (7)                                 Scanning... | (7)                                 Scanning... / (7)                                 Scanning... - (7)                                 Scanning... \ (7)                                 Scanning... | (7)                                 Scanning... / (7)                                 Scanning... - (6)                                 Scanning... \ (6)                                 Scanning... | (6)                                 Scanning... / (6)                                 Scanning... - (6)                                 Scanning... \ (6)                                 Scanning... | (6)                                 Scanning... / (6)                                 Scanning... - (6)                                 Scanning... \ (6)                                 Scanning... | (5)                                 Scanning... / (5)                                 Scanning... - (5)                                 Scanning... \ (5)                                 Scanning... | (5)                                 Scanning... / (5)                                 Scanning... - (5)                                 Scanning... \ (5)                                 Scanning... | (5)                                 Scanning... / (5)                                 Scanning... - (4)                                 Scanning... \ (4)                                 Scanning... | (4)                                 Scanning... / (4)                                 Scanning... - (4)                                 Scanning... \ (4)                                 Scanning... | (4)                                 Scanning... / (4)                                 Scanning... - (4)                                 Scanning... \ (4)                                 Scanning... | (3)                                 Scanning... / (3)                                 Scanning... - (3)                                 Scanning... \ (3)                                 Scanning... | (3)                                 Scanning... / (3)                                 Scanning... - (3)                                 Scanning... \ (3)                                 Scanning... | (3)                                 Scanning... / (3)                                 Scanning... - (2)                                 Scanning... \ (2)                                 Scanning... | (2)                                 Scanning... / (2)                                 Scanning... - (2)                                 Scanning... \ (2)                                 Scanning... | (2)                                 Scanning... / (2)                                 Scanning... - (2)                                 Scanning... \ (1)                                 Scanning... | (1)                                 Scanning... / (1)                                 Scanning... - (1)                                 Scanning... \ (1)                                 Scanning... | (1)                                 Scanning... / (1)                                 Scanning... - (1)                                 Scanning... \ (1)                                 Scanning... | (1)                                 Scanning... / (0)                                 Scanning... - (0)                                 Scanning... \ (0)                                 Scanning... | (0)                                 Scanning... / (0)                                 Scanning... - (0)                                 Scanning... \ (0)                                 Scanning... | (0)                                 Scanning... / (0)                                 Scanning... - (0)                                     0 local devices discovered
+
+Polling local devices...
+    [Leckage HWW              ] No IP found - Battery-powered or offline
+    [Leckage Küche            ] No IP found - Battery-powered or offline
+    [Leckage Schlafzimmer     ] No IP found - Battery-powered or offline
+    [Leckage Therme           ] No IP found - Battery-powered or offline
+    [Split                    ] No IP found - Battery-powered or offline
+
+>> Saving device snapshot data to snapshot.json
+
+
+Done.
+

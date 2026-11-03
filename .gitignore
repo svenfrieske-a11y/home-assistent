@@ -1,0 +1,21 @@
+# Home Assistant interne Speicher und Caches ausschließen
+.storage/
+.cache/
+
+# Datenbanken komplett blockieren
+*.db
+*.db-shm
+*.db-wal
+
+# Laufzeit- und Systemdateien
+*.log
+.ha_run.lock
+*.tft
+
+# Geheime Passwörter und Zugangsdaten
+secrets.yaml
+
+# Heruntergeladene Integrationen/Add-ons
+custom_components/
+blueprints/
+index.html*
