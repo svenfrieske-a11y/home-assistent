@@ -1,0 +1,45 @@
+id: '1792740785491'
+alias: Absenkung
+description: Absenkung in Abhängigkeit vom Zeitplan und nur bei no Frostschutz
+triggers:
+  - entity_id: schedule.wochenzeitplan
+    to: 'on'
+    id: start
+    trigger: state
+  - entity_id: schedule.wochenzeitplan
+    to: 'off'
+    id: stop
+    trigger: state
+conditions:
+  - condition: state
+    entity_id: input_boolean.frostschutz
+    state: 'off'
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: start
+        sequence:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.zieltemperatur
+            data:
+              value: '{{ states(''input_number.absenktemperatur'') | float(0) }}'
+          - action: notify.notify
+            data:
+              title: Absenkung aktiviert
+              message: 'Wert: {{ states(''input_number.zieltemperatur'') }}°C'
+      - conditions:
+          - condition: trigger
+            id: stop
+        sequence:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.zieltemperatur
+            data:
+              value: '{{ states(''input_number.tagestemperatur'') | float(0) }}'
+          - action: notify.notify
+            data:
+              title: Absenkung deaktiviert
+              message: 'Wert: {{ states(''input_number.zieltemperatur'') }}°C'
+mode: single

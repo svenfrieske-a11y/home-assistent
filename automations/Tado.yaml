@@ -1,0 +1,87 @@
+id: '1793368929442'
+alias: Tado
+description: >-
+  Schaltet Klimaanlage lokal und temperaturabhängig basierend auf Tado-Werten
+  mit Hysterese
+triggers:
+  - trigger: template
+    value_template: |-
+      {{ states('climate.tado_smart_thermostat_ru3295939584') != 'unknown' and 
+         (states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') | float(0)) < 
+         ((state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(5.0)) - 0.5) }}
+    id: heizen_an
+  - trigger: template
+    value_template: >-
+      {{
+      (states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') |
+      float(0)) > 
+         ((state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(5.0)) + 0.5) }}
+    id: heizen_aus
+  - trigger: state
+    entity_id: automation.tado
+    to: 'on'
+    id: switched_on
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: switched_on
+        sequence:
+          - action: automation.turn_off
+            target:
+              entity_id: automation.lokal
+      - conditions:
+          - condition: trigger
+            id: heizen_an
+        sequence:
+          - action: climate.set_hvac_mode
+            target:
+              entity_id: climate.split_lokal
+            data:
+              hvac_mode: heat
+          - action: climate.set_temperature
+            target:
+              entity_id: climate.split_lokal
+            data:
+              temperature: 24
+          - action: climate.set_fan_mode
+            target:
+              entity_id: climate.split_lokal
+            data:
+              fan_mode: low
+          - action: climate.set_swing_mode
+            target:
+              entity_id: climate.split_lokal
+            data:
+              swing_mode: 'off'
+          - action: climate.set_horizontal_swing_mode
+            target:
+              entity_id: climate.split_lokal
+            data:
+              horizontal_swing_mode: 'off'
+          - action: notify.notify
+            data:
+              title: Klimaanlage eingeschaltet
+              message: >-
+                Tado Lokal gesteuert. Ist-Wert: {{
+                states('sensor.tado_smart_thermostat_ru3295939584_current_temperature')
+                }}°C (Ziel am Thermostat: {{
+                state_attr('climate.tado_smart_thermostat_ru3295939584',
+                'temperature') }}°C)
+      - conditions:
+          - condition: trigger
+            id: heizen_aus
+        sequence:
+          - action: climate.set_hvac_mode
+            target:
+              entity_id: climate.split_lokal
+            data:
+              hvac_mode: 'off'
+          - action: notify.notify
+            data:
+              title: Klimaanlage ausgeschaltet
+              message: >-
+                Tado Lokal gesteuert. Thermostat ausgeschaltet oder
+                Zieltemperatur erreicht.
+mode: restart

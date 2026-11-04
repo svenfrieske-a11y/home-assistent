@@ -1,0 +1,38 @@
+id: '1792752343213'
+alias: Frostschutz
+description: Änderung der Zieltemperatur in Abhängigkeit vom Schalter "Frostschutz"
+triggers:
+  - entity_id:
+      - input_boolean.frostschutz
+    to:
+      - 'on'
+    id: fson
+    trigger: state
+  - entity_id:
+      - input_boolean.frostschutz
+    to:
+      - 'off'
+    id: fsoff
+    trigger: state
+conditions: []
+actions:
+  - choose:
+      - conditions:
+          - condition: trigger
+            id: fson
+        sequence:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.zieltemperatur
+            data:
+              value: 5
+      - conditions:
+          - condition: trigger
+            id: fsoff
+        sequence:
+          - action: input_number.set_value
+            target:
+              entity_id: input_number.zieltemperatur
+            data:
+              value: '{{ states(''input_number.tagestemperatur'') | float(0) }}'
+mode: single
