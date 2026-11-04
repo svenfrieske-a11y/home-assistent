@@ -1,0 +1,19 @@
+id: '1793782266887'
+alias: 'Alarm: Ferienhaus Frostgefahr'
+description: Meldet, wenn die Temperatur trotz Frostschutz unter 4°C fällt
+triggers:
+- entity_id:
+  - sensor.sonoff_th2_temperatur
+  below: 4
+  trigger: numeric_state
+conditions: []
+actions:
+- data:
+    title: '⚠️ KRITISCH: Frostgefahr im Ferienhaus!'
+    message: Die Innentemperatur ist auf {{ states('sensor.sonoff_th2_temperatur')
+      }}°C gefallen. Bitte Heizung prüfen!
+    data:
+      ttl: 0
+      priority: high
+  action: notify.notify
+mode: single
