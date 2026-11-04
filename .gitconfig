@@ -1,0 +1,17 @@
+[user]
+	name = svenfrieske-a11y
+	email = sven.frieske@gmail.com
+
+[safe]
+	directory = /config
+	directory = /homeassistant
+
+[core]
+	editor = code --wait
+	autocrlf = input
+
+[init]
+	defaultBranch = main
+
+[pull]
+	rebase = true
