@@ -1,8 +1,6 @@
-id: '1793368929442'
+id: "1793368929442"
 alias: Tado
-description: >-
-  Schaltet Klimaanlage lokal und temperaturabhängig basierend auf Tado-Werten
-  mit Hysterese
+description: Schaltet Klimaanlage lokal und temperaturabhängig basierend auf Tado-Werten mit Hysterese
 triggers:
   - trigger: template
     value_template: |-
@@ -19,7 +17,7 @@ triggers:
     id: heizen_aus
   - trigger: state
     entity_id: automation.tado
-    to: 'on'
+    to: "on"
     id: switched_on
 conditions: []
 actions:
@@ -35,35 +33,9 @@ actions:
           - condition: trigger
             id: heizen_an
         sequence:
-          - action: climate.set_hvac_mode
-            target:
-              entity_id: climate.split_lokal
+          - action: script.klima_an
             data:
-              hvac_mode: heat
-          - action: climate.set_temperature
-            target:
-              entity_id: climate.split_lokal
-            data:
-              temperature: 24
-          - action: climate.set_fan_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              fan_mode: low
-          - action: climate.set_swing_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              swing_mode: 'off'
-          - action: climate.set_horizontal_swing_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              horizontal_swing_mode: 'off'
-          - action: notify.notify
-            data:
-              title: Klimaanlage eingeschaltet
-              message: >-
+              nachricht: >-
                 Tado Lokal gesteuert. Ist-Wert: {{
                 states('sensor.tado_smart_thermostat_ru3295939584_current_temperature')
                 }}°C (Ziel am Thermostat: {{
@@ -73,15 +45,7 @@ actions:
           - condition: trigger
             id: heizen_aus
         sequence:
-          - action: climate.set_hvac_mode
-            target:
-              entity_id: climate.split_lokal
+          - action: script.klima_aus
             data:
-              hvac_mode: 'off'
-          - action: notify.notify
-            data:
-              title: Klimaanlage ausgeschaltet
-              message: >-
-                Tado Lokal gesteuert. Thermostat ausgeschaltet oder
-                Zieltemperatur erreicht.
+              nachricht: "Tado Lokal gesteuert. Thermostat ausgeschaltet oder Zieltemperatur erreicht."
 mode: restart

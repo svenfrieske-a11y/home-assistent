@@ -1,4 +1,4 @@
-id: '1793368778191'
+id: "1793368778191"
 alias: Lokal
 description: Schaltet Klimaanlage temperaturabhängig ein und aus
 triggers:
@@ -14,7 +14,7 @@ triggers:
     id: heizen_aus
   - trigger: state
     entity_id: automation.lokal
-    to: 'on'
+    to: "on"
     id: switched_on
 conditions: []
 actions:
@@ -30,46 +30,14 @@ actions:
           - condition: trigger
             id: heizen_an
         sequence:
-          - action: climate.set_hvac_mode
-            target:
-              entity_id: climate.split_lokal
+          - action: script.klima_an
             data:
-              hvac_mode: heat
-          - action: climate.set_temperature
-            target:
-              entity_id: climate.split_lokal
-            data:
-              temperature: 24
-          - action: climate.set_fan_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              fan_mode: low
-          - action: climate.set_swing_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              swing_mode: 'off'
-          - action: climate.set_horizontal_swing_mode
-            target:
-              entity_id: climate.split_lokal
-            data:
-              horizontal_swing_mode: 'off'
-          - action: notify.notify
-            data:
-              title: Klimaanlage eingeschaltet
-              message: 'Wert: {{ states(''sensor.sonoff_th2_temperatur'') }}°C'
+              nachricht: "Wert: {{ states('sensor.sonoff_th2_temperatur') }}°C"
       - conditions:
           - condition: trigger
             id: heizen_aus
         sequence:
-          - action: climate.set_hvac_mode
-            target:
-              entity_id: climate.split_lokal
+          - action: script.klima_aus
             data:
-              hvac_mode: 'off'
-          - action: notify.notify
-            data:
-              title: Klimaanlage ausgeschaltet
-              message: 'Wert: {{ states(''sensor.sonoff_th2_temperatur'') }}°C'
+              nachricht: "Wert: {{ states('sensor.sonoff_th2_temperatur') }}°C"
 mode: restart

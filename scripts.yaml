@@ -1,0 +1,45 @@
+klima_an:
+  alias: "Zentral: Klimaanlage Heizen Ein"
+  sequence:
+    - action: climate.set_hvac_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        hvac_mode: heat
+    - action: climate.set_temperature
+      target:
+        entity_id: climate.split_lokal
+      data:
+        temperature: 24
+    - action: climate.set_fan_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        fan_mode: low
+    - action: climate.set_swing_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        swing_mode: "off"
+    - action: climate.set_horizontal_swing_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        horizontal_swing_mode: "off"
+    - action: notify.notify
+      data:
+        title: Klimaanlage eingeschaltet
+        message: "{{ nachricht }}"
+
+klima_aus:
+  alias: "Zentral: Klimaanlage Aus"
+  sequence:
+    - action: climate.set_hvac_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        hvac_mode: "off"
+    - action: notify.notify
+      data:
+        title: Klimaanlage ausgeschaltet
+        message: "{{ nachricht }}"
