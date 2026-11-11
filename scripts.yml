@@ -21,11 +21,11 @@ klima_an:
         entity_id: climate.split_lokal
       data:
         swing_mode: "off"
-    - action: climate.set_horizontal_swing_mode
+    - action: climate.set_swing_horizontal_mode
       target:
         entity_id: climate.split_lokal
       data:
-        horizontal_swing_mode: "off"
+        swing_horizontal_mode: "on"
     - action: notify.notify
       data:
         title: Klimaanlage eingeschaltet
