@@ -6,7 +6,7 @@ triggers:
     value_template: >-
       {% set ist = states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') %}
       {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') %}
-      {{ is_state('climate.tado_smart_thermostat_ru3295939584', 'heat')
+      {{ not is_state('climate.tado_smart_thermostat_ru3295939584', 'off')
          and is_number(ist) and is_number(soll)
          and (ist | float) <= ((soll | float) - 0.5) }}
     id: heizen_an
@@ -42,7 +42,7 @@ actions:
                     value_template: >-
                       {% set ist = states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') %}
                       {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') %}
-                      {{ is_state('climate.tado_smart_thermostat_ru3295939584', 'heat')
+                      {{ not is_state('climate.tado_smart_thermostat_ru3295939584', 'off')
                          and is_number(ist) and is_number(soll)
                          and (ist | float) <= ((soll | float) - 0.5) }}
         sequence:
