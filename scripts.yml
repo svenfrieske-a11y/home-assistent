@@ -26,7 +26,7 @@ klima_an:
         entity_id: climate.split_lokal
       data:
         swing_horizontal_mode: "on"
-    - action: notify.notify
+    - action: notify.mobile_app_xiaomi_13t
       data:
         title: Klimaanlage eingeschaltet
         message: "{{ nachricht }}"
@@ -39,7 +39,7 @@ klima_aus:
         entity_id: climate.split_lokal
       data:
         hvac_mode: "off"
-    - action: notify.notify
+    - action: notify.mobile_app_xiaomi_13t
       data:
         title: Klimaanlage ausgeschaltet
         message: "{{ nachricht }}"
