@@ -1,0 +1,114 @@
+id: "ferienhaus_klimaanlage_regelung"
+alias: Ferienhaus Klimaanlage (Frostschutz, Vorheiz-Rampe & Regelung)
+description: Regelt split_lokal über Tado mit Frostschutz, Vorheiz-Rampe und gleitender Zieltemperatur
+mode: single
+
+triggers:
+  - trigger: state
+    entity_id:
+      - climate.tado_smart_thermostat_ru3295939584
+  - trigger: state
+    entity_id:
+      - climate.tado_smart_thermostat_ru3295939584
+    attribute: current_temperature
+  - trigger: state
+    entity_id:
+      - climate.tado_smart_thermostat_ru3295939584
+    attribute: temperature
+  - trigger: time_pattern
+    minutes: "/5"
+
+actions:
+  - variables:
+      tado_modus: "{{ states('climate.tado_smart_thermostat_ru3295939584') }}"
+      tado_ist: "{{ state_attr('climate.tado_smart_thermostat_ru3295939584', 'current_temperature') | float(10) }}"
+      tado_soll: "{{ state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(5) }}"
+      differenz: "{{ (tado_soll - tado_ist) | round(2) }}"
+      klima_modus: "{{ states('climate.split_lokal') }}"
+
+  - choose:
+      # FALL 1: Tado ist komplett AUS -> Klimaanlage ausschalten
+      - conditions:
+          - condition: template
+            value_template: "{{ tado_modus == 'off' }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ klima_modus != 'off' }}"
+            then:
+              - action: climate.set_hvac_mode
+                target:
+                  entity_id: climate.split_lokal
+                data:
+                  hvac_mode: "off"
+
+      # FALL 2: Frostschutz-Betrieb (Tado-Sollwert unter 15 °C)
+      - conditions:
+          - condition: template
+            value_template: "{{ tado_soll < 15 }}"
+        sequence:
+          - choose:
+              - conditions:
+                  - condition: template
+                    value_template: "{{ tado_ist < tado_soll }}"
+                sequence:
+                  - action: climate.set_hvac_mode
+                    target:
+                      entity_id: climate.split_lokal
+                    data:
+                      hvac_mode: "heat"
+                  - action: climate.set_temperature
+                    target:
+                      entity_id: climate.split_lokal
+                    data:
+                      temperature: 16
+              - conditions:
+                  - condition: template
+                    value_template: "{{ tado_ist >= (tado_soll + 1.5) }}"
+                sequence:
+                  - if:
+                      - condition: template
+                        value_template: "{{ klima_modus != 'off' }}"
+                    then:
+                      - action: climate.set_hvac_mode
+                        target:
+                          entity_id: climate.split_lokal
+                        data:
+                          hvac_mode: "off"
+
+      # FALL 3: Anwesenheit & Vorheiz-Rampe (Tado-Sollwert >= 15 °C)
+      - conditions:
+          - condition: template
+            value_template: "{{ tado_soll >= 15 }}"
+        sequence:
+          - if:
+              - condition: template
+                value_template: "{{ klima_modus != 'heat' }}"
+            then:
+              - action: climate.set_hvac_mode
+                target:
+                  entity_id: climate.split_lokal
+                data:
+                  hvac_mode: "heat"
+          - variables:
+              rampen_limit: "{{ (tado_ist + 3) | round(0) }}"
+              ziel_wunsch: >
+                {% if differenz >= 0.4 %}
+                  {{ (tado_soll + 4) | round(0) }}
+                {% elif differenz >= 0.0 %}
+                  {{ (tado_soll + 3) | round(0) }}
+                {% elif differenz >= -0.2 %}
+                  {{ (tado_soll + 2) | round(0) }}
+                {% else %}
+                  {{ (tado_soll - 1) | round(0) }}
+                {% endif %}
+              neuer_klima_soll: "{{ [[ziel_wunsch, rampen_limit] | min, 16] | max | round(0) }}"
+          - if:
+              - condition: template
+                value_template: "{{ state_attr('climate.split_lokal', 'temperature') | float(0) != neuer_klima_soll | float }}"
+            then:
+              - action: climate.set_temperature
+                target:
+                  entity_id: climate.split_lokal
+                data:
+                  temperature: "{{ neuer_klima_soll }}"
