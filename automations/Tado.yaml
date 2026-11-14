@@ -6,21 +6,38 @@ triggers:
     value_template: >-
       {% set ist = states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') %}
       {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') %}
-      {{ not is_state('climate.tado_smart_thermostat_ru3295939584', 'off')
-         and is_number(ist) and is_number(soll)
-         and (ist | float) <= ((soll | float) - 0.5) }}
+      {% if not is_state('climate.tado_smart_thermostat_ru3295939584', 'off') and is_number(ist) and is_number(soll) %}
+        {% set hyst = 1.0 if (soll | float) > 6 else 0.5 %}
+        {{ (ist | float) <= ((soll | float) - hyst) }}
+      {% else %}
+        false
+      {% endif %}
     id: heizen_an
   - trigger: template
     value_template: >-
       {% set ist = states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') %}
       {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') %}
-      {{ is_number(ist) and is_number(soll)
-         and (ist | float) >= ((soll | float) + 0.5) }}
+      {% if is_number(ist) and is_number(soll) %}
+        {% set hyst = 1.0 if (soll | float) > 6 else 0.5 %}
+        {{ (ist | float) >= ((soll | float) + hyst) }}
+      {% else %}
+        false
+      {% endif %}
     id: heizen_aus
+  - trigger: state
+    entity_id: climate.tado_smart_thermostat_ru3295939584
+    to: "off"
+    id: thermostat_aus
   - trigger: state
     entity_id: automation.tado
     to: "on"
     id: switched_on
+  - trigger: time
+    at: "22:00:00"
+    id: zeit_wechsel
+  - trigger: time
+    at: "07:00:00"
+    id: zeit_wechsel
 conditions: []
 actions:
   - if:
@@ -32,6 +49,13 @@ actions:
           entity_id: automation.lokal
   - choose:
       - conditions:
+          - condition: trigger
+            id: thermostat_aus
+        sequence:
+          - action: script.klima_aus
+            data:
+              nachricht: "Tado Lokal gesteuert. Thermostat ausgeschaltet."
+      - conditions:
           - or:
               - condition: trigger
                 id: heizen_an
@@ -42,12 +66,17 @@ actions:
                     value_template: >-
                       {% set ist = states('sensor.tado_smart_thermostat_ru3295939584_current_temperature') %}
                       {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') %}
+                      {% set hyst = 1.0 if (soll | float(0)) > 6 else 0.5 %}
                       {{ not is_state('climate.tado_smart_thermostat_ru3295939584', 'off')
                          and is_number(ist) and is_number(soll)
-                         and (ist | float) <= ((soll | float) - 0.5) }}
+                         and (ist | float) <= ((soll | float) - hyst) }}
         sequence:
+          - variables:
+              is_over_6: "{{ (state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(0)) > 6 }}"
           - action: script.klima_an
             data:
+              send_notify: "{{ not is_over_6 }}"
+              use_swing: "{{ not is_over_6 }}"
               nachricht: >-
                 Tado Lokal gesteuert. Ist-Wert: {{
                 states('sensor.tado_smart_thermostat_ru3295939584_current_temperature')
@@ -58,7 +87,36 @@ actions:
           - condition: trigger
             id: heizen_aus
         sequence:
-          - action: script.klima_aus
-            data:
-              nachricht: "Tado Lokal gesteuert. Thermostat ausgeschaltet oder Zieltemperatur erreicht."
+          - if:
+              - condition: template
+                value_template: "{{ (state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(0)) > 6 }}"
+            then:
+              - action: script.klima_standby
+            else:
+              - action: script.klima_aus
+                data:
+                  nachricht: "Tado Lokal gesteuert. Zieltemperatur erreicht."
+      - conditions:
+          - condition: trigger
+            id: zeit_wechsel
+          - condition: template
+            value_template: "{{ not is_state('climate.split_lokal', 'off') }}"
+        sequence:
+          - action: light.turn_off
+            target:
+              entity_id: light.split_lokal_anzeige
+          - if:
+              - condition: template
+                value_template: >
+                  {% set soll = state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(0) %}
+                  {% set h = now().hour %}
+                  {{ soll > 6 and (h >= 22 or h < 7) }}
+            then:
+              - action: switch.turn_on
+                target:
+                  entity_id: switch.split_lokal_schlafen
+            else:
+              - action: switch.turn_off
+                target:
+                  entity_id: switch.split_lokal_schlafen
 mode: restart
