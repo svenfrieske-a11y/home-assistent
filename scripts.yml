@@ -54,11 +54,48 @@ klima_an:
         - action: switch.turn_off
           target:
             entity_id: switch.split_lokal_schlafen
+klima_aus:
+  alias: "Zentral: Klimaanlage Aus"
+  sequence:
+    - action: climate.set_hvac_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        hvac_mode: "off"
+    - action: light.turn_off
+      target:
+        entity_id: light.split_lokal_anzeige
+    - action: switch.turn_off
+      target:
+        entity_id: switch.split_lokal_schlafen
+    - action: notify.mobile_app_xiaomi_13t
+      data:
+        title: Klimaanlage ausgeschaltet
+        message: "{{ nachricht }}"
+klima_standby:
+  alias: "Zentral: Klimaanlage Standby"
+  sequence:
+    - action: climate.set_hvac_mode
+      target:
+        entity_id: climate.split_lokal
+      data:
+        hvac_mode: heat
+    - action: climate.set_temperature
+      target:
+        entity_id: climate.split_lokal
+      data:
+        temperature: 16
+    - action: light.turn_off
+      target:
+        entity_id: light.split_lokal_anzeige
     - if:
         - condition: template
-          value_template: "{{ send_notify | default(true) }}"
+          value_template: "{{ (state_attr('climate.tado_smart_thermostat_ru3295939584', 'temperature') | float(0)) > 6 and (now().hour >= 22 or now().hour < 7) }}"
       then:
-        - action: notify.mobile_app_xiaomi_13t
-          data:
-            title: Klimaanlage eingeschaltet
-            message: "{{ nachricht }}"
+        - action: switch.turn_on
+          target:
+            entity_id: switch.split_lokal_schlafen
+      else:
+        - action: switch.turn_off
+          target:
+            entity_id: switch.split_lokal_schlafen
